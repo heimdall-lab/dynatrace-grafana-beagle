@@ -6,7 +6,10 @@
 
 ## Prod 
 
+> replace {{YOUR}} in cluster.yaml with your specific values 
+
 *  kubectl apply -f cluster.yaml
+
 ## Develop
 
 * use rancher desktop 
