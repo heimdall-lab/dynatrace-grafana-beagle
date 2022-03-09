@@ -1,0 +1,158 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: heimdall
+
+---
+
+# agent 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:    
+    tier: app
+  name: deploy-agent
+  namespace: heimdall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent
+  template:
+    metadata:
+      labels:
+        app: agent
+    spec:
+      containers:
+        - name: python-agent
+          image: gcvalderrama/dynatrace-problems-reader:latest
+          imagePullPolicy: Always
+          env:
+            - name: mysql__username
+              value: "root"
+            - name: mysql__password
+              value: "test123"
+            - name: mysql__server
+              value: "db-service"
+            - name: mysql__port
+              value: "3306"
+            - name: mysql__database
+              value: "lab"
+            - name: app__dyn_host
+              value: "{YOUR}"
+            - name: app__dyn_token
+              value: "{YOUR}"
+            - name: app__tag_service
+              value: "{YOUR}"
+            - name: app__start_day
+              value: "5"
+            - name: app__end_day
+              value: "23"
+
+          ports:
+            - containerPort: 5000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:    
+    tier: database
+  name: deploy-db
+  namespace: heimdall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db-mysql
+          image: mysql:8.0.23
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: 'test123'
+            - name: MYSQL_DATABASE
+              value: 'lab'            
+          ports:
+            - containerPort: 3306
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: heimdall
+spec:
+  # ClusterIP NodePort
+  type: NodePort
+  selector:
+    app: db
+  ports:
+    - name: tcp
+      protocol: TCP      
+      port: 3306
+      targetPort: 3306
+      nodePort: 30306
+
+---
+
+# grafana
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:    
+    tier: grafana
+  name: deploy-grafana
+  namespace: heimdall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      
+      containers:
+        - name: grafana
+          imagePullPolicy: Always
+          image: gcvalderrama/dynatrace-problems-grafana:latest
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: 'lab'
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: 'lab'
+            - name: GF_LOG_LEVEL
+              value: 'error'           
+          
+          ports:
+            - containerPort: 3000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: heimdall
+spec:
+  # ClusterIP NodePort
+  type: NodePort
+  selector:
+    app: grafana
+  ports:
+    - name: tcp
+      protocol: TCP      
+      port: 3000
+      targetPort: 3000
+      nodePort: 30300

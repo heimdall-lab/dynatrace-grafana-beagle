@@ -1,0 +1,1213 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": "-- Grafana --",
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "target": {
+                    "limit": 100,
+                    "matchAny": false,
+                    "tags": [],
+                    "type": "dashboard"
+                },
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 2,
+                "x": 0,
+                "y": 0
+            },
+            "id": 13,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "hide": false,
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT count(distinct  problem) as problems\nFROM daily_problems\nWHERE $__timeFilter(start)\n\n",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Problems",
+            "type": "stat"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 3,
+                "x": 2,
+                "y": 0
+            },
+            "id": 18,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(duration) as \"value\", impact as metric\nFROM daily_problems\nWHERE $__timeFilter(start)\nGROUP BY impact\nORDER BY value desc",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Duration",
+            "type": "stat"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 6,
+                "x": 5,
+                "y": 0
+            },
+            "id": 14,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(duration) as \"value\", severity as metric\nFROM daily_problems\nWHERE $__timeFilter(start)\nGROUP BY severity\nORDER BY value desc",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Total Impact Duration By Severity",
+            "type": "bargauge"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 6,
+                "x": 11,
+                "y": 0
+            },
+            "id": 17,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(event_total_request) as \"value\", severity as metric\nFROM daily_problems\nWHERE $__timeFilter(start)\nGROUP BY severity\nORDER BY value desc",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Total Impact Request By Severity",
+            "type": "bargauge"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 7,
+                "x": 17,
+                "y": 0
+            },
+            "id": 15,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(duration) as \"value\", event_type as metric\nFROM daily_problems\nWHERE $__timeFilter(start)\nGROUP BY event_type\nORDER BY value desc limit 5",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Total Impact Duration By Type",
+            "type": "bargauge"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 11,
+                "x": 0,
+                "y": 6
+            },
+            "id": 24,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom"
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "time_series",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT  start as time, DAYNAME(start) , duration as duration\nFROM daily_problems\nWHERE $__timeFilter(start)\norder by start",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Impact Duration",
+            "type": "timeseries"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 6,
+                "w": 13,
+                "x": 11,
+                "y": 6
+            },
+            "id": 25,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom"
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "time_series",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT  start as time, DAYNAME(start) , event_total_request as requests\nFROM daily_problems\nWHERE $__timeFilter(start)\norder by start",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Impact request",
+            "type": "timeseries"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "points",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 11,
+                "x": 0,
+                "y": 12
+            },
+            "id": 11,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom"
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "time_series",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT\n  start AS \"time\",\n  event_severity,\n  event_total_request \nFROM daily_problems\nWHERE\n  $__timeFilter(start)\nORDER BY start",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Event Severity",
+            "type": "timeseries"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "points",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "h"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 13,
+                "x": 11,
+                "y": 12
+            },
+            "id": 26,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom"
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "time_series",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT\n  start AS \"time\",\n  event_severity,\n  HOUR(start) as hour \nFROM daily_problems\nWHERE\n  $__timeFilter(start)\nORDER BY start",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Hourly Severity",
+            "type": "timeseries"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 11,
+                "x": 0,
+                "y": 19
+            },
+            "id": 20,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(duration) as \"value\", event_name as metric\nFROM daily_problems\nWHERE $__timeFilter(start)\nGROUP BY event_name\nORDER BY value desc limit 10",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Duration impact by Event Name",
+            "type": "bargauge"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 13,
+                "x": 11,
+                "y": 19
+            },
+            "id": 21,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(event_total_request) as \"value\", event_name as metric\nFROM daily_problems\nWHERE $__timeFilter(start)\nGROUP BY event_name\nORDER BY value desc limit 10",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Request impacted by Event Name",
+            "type": "bargauge"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 11,
+                "x": 0,
+                "y": 27
+            },
+            "id": 22,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(duration) as \"value\", event_name as metric\nFROM daily_problems\nWHERE $__timeFilter(start) and root = True\nGROUP BY event_name\nORDER BY value desc limit 10",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Duration impact by Root Cause",
+            "type": "bargauge"
+        },
+        {
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "m"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 13,
+                "x": 11,
+                "y": 27
+            },
+            "id": 23,
+            "options": {
+                "displayMode": "gradient",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": true
+                },
+                "showUnfilled": true,
+                "text": {}
+            },
+            "pluginVersion": "8.4.3",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "mysql",
+                        "uid": "P5DCF78114C488F6D"
+                    },
+                    "format": "table",
+                    "group": [],
+                    "metricColumn": "none",
+                    "rawQuery": true,
+                    "rawSql": "SELECT sum(duration) as \"value\",   event_service, event_method as metric\nFROM daily_problems\nWHERE $__timeFilter(start) and root = True\nGROUP BY event_service, event_method\nORDER BY value desc limit 10",
+                    "refId": "A",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "index"
+                                ],
+                                "type": "column"
+                            }
+                        ]
+                    ],
+                    "table": "problems",
+                    "timeColumn": "start",
+                    "timeColumnType": "timestamp",
+                    "where": [
+                        {
+                            "name": "$__timeFilter",
+                            "params": [],
+                            "type": "macro"
+                        }
+                    ]
+                }
+            ],
+            "title": "Duration impact by Service Method",
+            "type": "bargauge"
+        }
+    ],
+    "schemaVersion": 35,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-30d",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "daily_problems",
+    "version": 1,
+    "weekStart": ""
+}

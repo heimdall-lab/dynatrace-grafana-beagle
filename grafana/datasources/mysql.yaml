@@ -1,0 +1,16 @@
+# config file version
+# http://localhost:30300/api/datasources
+apiVersion: 1
+
+datasources:
+  # <string, required> name of the datasource. Required
+  - name: Mysql    
+    type: mysql            
+    url: db-service
+    database: lab
+    user: root
+    password: test123    
+    basicAuth: false
+    editable: true
+    isDefault: True
+    

@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: beagle
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:    
+    tier: database
+    project: heimdall
+  name: deploy-db
+  namespace: beagle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+        project: heimdall
+    spec:
+      containers:
+        - name: db-mysql
+          image: mysql:8.0.23
+          imagePullPolicy: Never
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: 'test123'
+            - name: MYSQL_DATABASE
+              value: 'lab'            
+          ports:
+            - containerPort: 3306
+
+---
+#mysql 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: beagle
+spec:
+  # ClusterIP NodePort
+  type: NodePort
+  selector:
+    app: db
+  ports:
+    - name: tcp
+      protocol: TCP      
+      port: 3306
+      targetPort: 3306
+      nodePort: 30306
+
+---
+
+# grafana
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:    
+    tier: grafana
+  name: deploy-grafana
+  namespace: beagle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        project: heimdall
+    spec:
+      volumes:
+      - name: providers      
+        hostPath:
+          path: '{{pwd}}/grafana/dashboards/provider.yaml'
+          type: File
+          
+      - name: datasources        
+        hostPath:
+          path: '{{pwd}}/grafana/datasources'
+          type: Directory
+      - name: dashboards        
+        hostPath:
+          path: '{{pwd}}/grafana/dashboards'
+          type: Directory
+      
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          imagePullPolicy: Never
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: 'lab'
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: 'lab'
+            - name: GF_LOG_LEVEL
+              value: 'error'           
+          volumeMounts:
+          - mountPath: /etc/grafana/provisioning/dashboards/provider.yaml      
+            name: providers
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: datasources
+          - mountPath: /etc/dashboards
+            name: dashboards
+          # - mountPath: /etc/grafana/grafana.ini
+          #   name: ini
+            
+          ports:
+            - containerPort: 3000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: beagle
+spec:
+  # ClusterIP NodePort
+  type: NodePort
+  selector:
+    app: grafana
+  ports:
+    - name: tcp
+      protocol: TCP      
+      port: 3000
+      targetPort: 3000
+      nodePort: 30300

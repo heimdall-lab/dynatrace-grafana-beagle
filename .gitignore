@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+wip/*
+infrastructure.yaml
+
+cluster-local.yaml
+
+run_dev.ps1
+.DS_STORE

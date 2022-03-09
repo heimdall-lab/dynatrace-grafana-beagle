@@ -1,0 +1,8 @@
+mysql-connector-python
+SQLAlchemy
+pandas
+pyyaml
+flask
+requests
+Flask-APScheduler
+python-dotenv
