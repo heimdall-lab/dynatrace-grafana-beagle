@@ -18,3 +18,6 @@
 * execute run.ps1 to build and run local cluster 
 
 ![Alt text](sample.png?raw=true "Sample dashboard")
+
+
+![Alt text](sample2.png?raw=true "Sample 2 dashboard")
