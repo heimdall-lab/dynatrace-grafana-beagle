@@ -19,5 +19,8 @@
 
 ![Alt text](sample.png?raw=true "Sample dashboard")
 
-
 ![Alt text](sample2.png?raw=true "Sample 2 dashboard")
+
+![Alt text](sample3.png?raw=true "Sample 3 problems widget")
+
+![Alt text](sample4.png?raw=true "Sample 4 association mining")
