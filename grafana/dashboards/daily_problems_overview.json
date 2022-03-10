@@ -435,7 +435,7 @@
             ]
           }
         ],
-        "title": "Total Impact Duration By Type",
+        "title": "Total Impact Duration By Event_type",
         "type": "bargauge"
       },
       {
@@ -1474,6 +1474,7 @@
         "type": "table"
       }
     ],
+    "refresh": false,
     "schemaVersion": 35,
     "style": "dark",
     "tags": [],
@@ -1481,13 +1482,13 @@
       "list": []
     },
     "time": {
-      "from": "now-30d",
-      "to": "now"
+      "from": "2022-02-28T09:18:15.491Z",
+      "to": "2022-02-28T11:31:17.687Z"
     },
     "timepicker": {},
-    "timezone": "",
+    "timezone": "utc",
     "title": "daily_problems",
     "uid": "r_ad7XYnz",
-    "version": 4,
-    "weekStart": ""
+    "version": 6,
+    "weekStart": "monday"
   }

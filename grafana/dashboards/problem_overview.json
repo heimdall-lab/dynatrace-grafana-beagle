@@ -1207,9 +1207,9 @@
       "to": "now"
     },
     "timepicker": {},
-    "timezone": "",
+    "timezone": "utc",
     "title": "problems_overview",
     "uid": "mkcFe_Y7k",
     "version": 1,
-    "weekStart": ""
+    "weekStart": "monday"
   }

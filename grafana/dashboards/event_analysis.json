@@ -1390,9 +1390,9 @@
       "to": "now"
     },
     "timepicker": {},
-    "timezone": "",
+    "timezone": "utc",
     "title": "event_analysis",
     "uid": "fkcK6_Y7k",
     "version": 2,
-    "weekStart": ""
+    "weekStart": "monday"
   }
