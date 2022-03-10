@@ -1110,7 +1110,7 @@
             ]
           }
         ],
-        "title": "Blast Ratio  -  Request impacted by Event Name",
+        "title": "Blast Ratio  -  Request impacted by Service Method",
         "type": "bargauge"
       },
       {
@@ -1302,7 +1302,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
+          "h": 7,
           "w": 8,
           "x": 16,
           "y": 27
@@ -1374,6 +1374,6 @@
     "timezone": "",
     "title": "daily_problems",
     "uid": "r_ad7XYnz",
-    "version": 2,
+    "version": 3,
     "weekStart": ""
   }
