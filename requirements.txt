@@ -6,3 +6,4 @@ flask
 requests
 Flask-APScheduler
 python-dotenv
+mlxtend

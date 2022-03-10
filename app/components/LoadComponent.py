@@ -1,3 +1,4 @@
+import sys
 from typing import List
 from charset_normalizer import logging
 import pandas as pd
@@ -5,13 +6,15 @@ from app.core.DailyProblemItemEntity import DailyProblemItemEntity
 from app.core.DatetimeUtils import DatetimeUtils
 from app.core.ProblemCollection import ProblemCollection
 from app.core.ProblemItemEntity import ProblemItemEntity
-
 from app.gateways.CSVGateway import CSVGateway
 from app.gateways.DynatraceGateway import DynatraceGateway
 from app.gateways.MySQLGateway import MySQLGateway
 from app.core.DataframeUtil import DataframeUtil
 from datetime import datetime, timedelta
-
+from mlxtend.frequent_patterns import apriori, association_rules, fpmax, fpgrowth
+from mlxtend.preprocessing import TransactionEncoder
+from itertools import groupby
+import numpy as np
 class LoadComponent: 
         
     def __init__(self, mysql_gateway : MySQLGateway, 
@@ -21,7 +24,15 @@ class LoadComponent:
                  entity_tag: str, 
                  app_batch: int,
                  start_day: int,
-                 end_day: int) -> None:
+                 end_day: int, 
+                 analysis_days: int,
+                 analysis_minsup: float,
+                 analysis_confidence: float,
+                 blast_ratio: int) -> None:
+        self.blast_ratio = int(blast_ratio)
+        self.analysis_minsup = float(analysis_minsup)
+        self.analysis_confidence = float(analysis_confidence)
+        self.analysis_days = int(analysis_days)
         self.logger = logging.getLogger(__class__.__name__)
         self.mysql_gateway = mysql_gateway
         self.csv_gateway = csv_gateway        
@@ -93,23 +104,28 @@ class LoadComponent:
                     temp.append(r)
             self.__send_database(temp)
             
-        # working_problems = problems[(problems['start'].dt.hour > 5) & (problems['start'].dt.hour < 22)]
-        # severity = DataframeUtil.prepare_export(problems['severity'])
-        # impact = DataframeUtil.prepare_export(problems['impact'])
-        # event_impact = DataframeUtil.prepare_export(problems['event_impact'])
-        # event_severity = DataframeUtil.prepare_export(problems['event_severity'])
-        # event_names = DataframeUtil.prepare_export(problems['event_name'])
-        # display_names = DataframeUtil.prepare_export(problems['display_name'])
-        # event_type = DataframeUtil.prepare_export(problems['event_type'])
-        # self.mysql_gateway.to_sql('event_type', event_type)
-        # self.mysql_gateway.to_sql('severity', severity)
-        # self.mysql_gateway.to_sql('impact', impact)
-        # self.mysql_gateway.to_sql('event_impact', event_impact)
-        # self.mysql_gateway.to_sql('event_severity', event_severity)
-        # self.mysql_gateway.to_sql('event_names', event_names)
-        # self.mysql_gateway.to_sql('problem_names', display_names)
-        # self.mysql_gateway.to_sql('problems', problems)
-        # self.mysql_gateway.to_sql('working_problems', working_problems)
+    def load_association(self):
+        self.logger.warning("start association mining")
+        items = self.mysql_gateway.get_problems_by_ratio(self.blast_ratio, self.analysis_days)
+        itemsets = list()
+        if items:
+            for k, g in groupby(items, key=lambda x:x['problem']):
+                group = sorted(g, key=lambda x: x['event_start'])
+                itemsets.append( [ x['source'] for x in group ])
+                
+            te = TransactionEncoder()
+            a_data = te.fit(itemsets).transform(itemsets)
+            ml_temp = pd.DataFrame(a_data, columns=te.columns_)
+            ml_res = apriori(ml_temp, min_support = self.analysis_minsup, use_colnames = True, verbose = 1)
+            ml_res['length'] = ml_res['itemsets'].apply(lambda x: len(x))
+         
+            result = association_rules(ml_res, metric="confidence", min_threshold=self.analysis_confidence)
+            result.replace([np.inf], sys.maxsize, inplace=True)
+            result.replace([-np.inf], -1 * sys.maxsize, inplace=True)
+            result["antecedents"] = result["antecedents"].apply(lambda x: ', '.join(list(x))).astype("unicode")
+            result["consequents"] = result["consequents"].apply(lambda x: ', '.join(list(x))).astype("unicode")
+            self.mysql_gateway.to_sql('daily_problems_associations', result)
+ 
         
         
                

@@ -57,8 +57,13 @@ dynatrace = DynatraceGateway(
         os.environ['app__dyn_token'],
         os.environ['app__tag_service']
 )
-component = LoadComponent(mysql, csv, dynatrace, datetime.now(), tag_service, 2,
-                                os.environ['app__start_day'], os.environ['app__end_day'])
+component = LoadComponent(mysql, csv, dynatrace, datetime.now(), tag_service, 1, 
+                                       os.environ['app__start_day'], 
+                                       os.environ['app__end_day'],
+                                       os.environ['app__analysis_days'],
+                                       os.environ['app__analysis_minsup'], 
+                                       os.environ['app__analysis_confidence'],
+                                       os.environ['app__blast_ratio'] )
 
 
 @scheduler.task('interval', id='monitoring_job', seconds=5)
@@ -77,6 +82,13 @@ def sync_job():
 def do_sync_log():
     try:
         component.load_log()    
+    except Exception as ex:
+        logger.exception(ex)
+
+@scheduler.task('interval', id='do_sync_analisys', seconds=120, misfire_grace_time=900, max_instances=1)
+def do_sync_analisys():
+    try:
+        component.load_association()    
     except Exception as ex:
         logger.exception(ex)
 

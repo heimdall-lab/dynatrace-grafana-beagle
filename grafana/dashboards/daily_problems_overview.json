@@ -1358,6 +1358,120 @@
         ],
         "title": "Duration impact by Event Name",
         "type": "bargauge"
+      },
+      {
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "antecedents"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 471
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "consequents"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 454
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 24,
+          "x": 0,
+          "y": 34
+        },
+        "id": 29,
+        "options": {
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "support"
+            }
+          ]
+        },
+        "pluginVersion": "8.4.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "P5DCF78114C488F6D"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT antecedents, consequents, support, confidence, lift, leverage, conviction  from daily_problems_associations",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "index"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "problems",
+            "timeColumn": "start",
+            "timeColumnType": "timestamp",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "title": "Association mining",
+        "type": "table"
       }
     ],
     "schemaVersion": 35,
@@ -1374,6 +1488,6 @@
     "timezone": "",
     "title": "daily_problems",
     "uid": "r_ad7XYnz",
-    "version": 3,
+    "version": 4,
     "weekStart": ""
   }
