@@ -80,7 +80,7 @@ class LoadComponent:
         
         self.logger.warning('sync log database sync problem: {} {}'.format( items[0].display_name, len(items) ))
         
-        self.mysql_gateway.send_problem_items(items)
+        
 
         daily_problems_filtered = filter(lambda x: x.start.hour >= self.start_day and x.end.hour <= self.end_day, items)
         
@@ -88,6 +88,8 @@ class LoadComponent:
         
         self.logger.warning('sync log database sync daily problem: {}'.format( len(daily_problems) ))
      
+        self.mysql_gateway.send_problem_items(items)
+        
         self.mysql_gateway.send_problem_items(daily_problems)
    
     def load_log(self):

@@ -44,6 +44,9 @@ if __name__ == "__main__":
             os.environ['app__tag_service']
     )
     component = LoadComponent(mysql, csv, dynatrace, datetime.now(), tag_service, 1,
-                                os.environ['app__start_day'], os.environ['app__end_day'])
+                                os.environ['app__start_day'], os.environ['app__end_day'],
+                                os.environ['app__analysis_days'], os.environ['app__analysis_minsup'],
+                                os.environ['app__analysis_confidence'], 
+                                os.environ['app__blast_ratio'])
     component.prepare()
     component.load_log()   

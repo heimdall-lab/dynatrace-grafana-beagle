@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from typing import List
 import pandas as pd
-import mysql.connector
 from mysql.connector import Error
 from sqlalchemy import create_engine, text
 from app.core.BaseEntity import Base
@@ -79,7 +78,7 @@ class MySQLGateway:
         if not  items:
             return
         for i in items:
-            self.session.add(i)
+            session.add(i)
         session.commit()
     
     def to_sql(self, table_name, df: pd.DataFrame):
