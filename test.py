@@ -50,3 +50,4 @@ if __name__ == "__main__":
                                 os.environ['app__blast_ratio'])
     component.prepare()
     component.load_log()   
+    component.load_association()    

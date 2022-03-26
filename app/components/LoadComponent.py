@@ -80,8 +80,6 @@ class LoadComponent:
         
         self.logger.warning('sync log database sync problem: {} {}'.format( items[0].display_name, len(items) ))
         
-        
-
         daily_problems_filtered = filter(lambda x: x.start.hour >= self.start_day and x.end.hour <= self.end_day, items)
         
         daily_problems = list(map( lambda x: DailyProblemItemEntity(x), daily_problems_filtered))
@@ -102,7 +100,7 @@ class LoadComponent:
             result = collection.parse()
             temp = list()
             for r in result:
-                if r.start <= min_start and r.problem not in min_ids:
+                if r.problem not in min_ids:
                     temp.append(r)
             self.__send_database(temp)
             
@@ -111,7 +109,7 @@ class LoadComponent:
         items = self.mysql_gateway.get_problems_by_ratio(self.blast_ratio, self.analysis_days)
         itemsets = list()
         if items:
-            for k, g in groupby(items, key=lambda x:x['problem']):
+            for _, g in groupby( sorted(items, key=lambda x:x['problem']) , key=lambda x:x['problem']):
                 group = sorted(g, key=lambda x: x['event_start'])
                 itemsets.append( [ x['source'] for x in group ])
                 
